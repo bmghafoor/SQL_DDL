@@ -20,7 +20,13 @@ CREATE TABLE doctor
   id SERIAL PRIMARY KEY,
   _name TEXT NOT NULL,
   specialty TEXT NOT NULL,
-  works_at INT NOT NULL REFERENCES center(id)
+);
+
+CREATE TABLE center_doctor
+(
+    id SERIAL PRIMARY KEY,
+    center_id INT NOT NULL REFERENCES center(id),
+    doctor_id INT NOT NULL REFERENCES doctor(id),
 );
 
 CREATE TABLE patient
@@ -30,10 +36,10 @@ CREATE TABLE patient
     age TEXT NOT NULL,
 );
 
-CREATE TABLE docpat
+CREATE TABLE visit
 (
     id SERIAL PRIMARY KEY,
-    doc_id INT NOT NULL REFERENCES doctor(id),
+    center_doctor INT NOT NULL REFERENCES center_doctor(id),
     pat_id INT NOT NULL REFERENCES patient(id),
 );
 
@@ -43,11 +49,11 @@ CREATE TABLE disease
     _name TEXT NOT NULL,
 );
 
-CREATE TABLE patient_disease
+CREATE TABLE diagnosis
 (
     id SERIAL PRIMARY KEY,
-    pat_id INT NOT NULL REFERENCES patient(id),
-    disease_id INT NOT NULL REFERENCES disease(id)
+    disease_id INT NOT NULL REFERENCES disease(id),
+    visit_id INT NOT NULL REFERENCES visit(id)
 );
 
 -- Craiglist
@@ -120,8 +126,11 @@ CREATE TABLE game
     team1 INT REFERENCES teams(id),
     team2 INT REFERENCES teams(id),
     referee INT REFERENCES referees(id),
+    ref2 INT REFERENCES referees(id),
+    ref3 INT REFERENCES referees(id).
     team1_num_goals INT,
     team2_num_goals INT,
+    result TEXT
 );
 
 CREATE TABLE goals
@@ -131,11 +140,3 @@ CREATE TABLE goals
     goal_scorer INT REFERENCES player(id),
     num_goals INT,
 )
-
-CREATE TABLE result
-(
-    id SERIAL PRIMARY KEY,
-    game INT REFERENCES game(id),
-    team INT REFERENCES team(id),
-    result TEXT
-);

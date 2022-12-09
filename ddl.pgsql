@@ -136,6 +136,6 @@ CREATE TABLE result
 (
     id SERIAL PRIMARY KEY,
     game INT REFERENCES game(id),
-    winner INT REFERENCES team(id),
-    winner TEXT NOT NULL
+    team INT REFERENCES team(id),
+    result TEXT
 );
